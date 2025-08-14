@@ -42,3 +42,4 @@ luac.out
 .vscode/
 .ignoreme/
 .env
+core/logs/*.log

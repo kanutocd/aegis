@@ -1,0 +1,30 @@
+services:
+  gateway:
+    image: openresty/openresty:alpine
+    volumes:
+      - ./core:/aegis/core
+      - ./core/config/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
+    ports:
+      - "8000:80"
+    depends_on:
+      - redis
+      - consul
+
+  admin:
+    build:
+      context: ./admin
+      dockerfile: Dockerfile
+    ports:
+      - "4567:4567"
+    depends_on:
+      - gateway
+      - redis
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+  consul:
+    image: consul:1.12
+    ports:
+      - "8500:8500"
